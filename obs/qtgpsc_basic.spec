@@ -11,7 +11,7 @@ BuildRequires:          cmake >= 2.6, libqt4-devel >= 4.5, gpsd-devel >= 2.96
 %if 0%{?suse_version}  
 BuildRequires: update-desktop-files
 %endif
-Requires:               libqt4 >= 4.5.1, libgpsd >= 2.96
+Requires:               libqt4 >= 4.5.1, libgps20 >= 2.96
 
 %description
 qtGPSc is a simple graphical client for gpsd.  It connects to
