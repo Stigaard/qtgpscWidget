@@ -1,0 +1,25 @@
+    qtGpsc - A client for the gpsd GPS server, based on the Qt toolkit 
+
+Overview
+
+    qtGPSc is a simple graphical client for gpsd. It connects to
+    a GPS receiver via gpsd and displays position, speed, and time,
+    as well as various precision indicators and satellite configuration.
+    It can also show the raw GPS data in GPSD or NMEA format.
+    
+Installation
+
+    See the INSTALL file for details on how to build and install the software.
+    Alternatively, packages are available for certain distros. Check the web
+    site for details.
+    
+Authors and license
+
+    Copyright (C) 2010 by Diego Berge <gpsd@navlost.eu>
+
+    ApcUps is free software distributed under the GNU General Public
+    License version 3. See the LICENSE file for terms.
+    
+On the web
+
+    Project home: http://navlost.eu/devel/qtgpsc

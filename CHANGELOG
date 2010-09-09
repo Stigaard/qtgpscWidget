@@ -1,0 +1,5 @@
+qtGpsc changelog
+
+0.3.0 - Wed Sep 08 2010
+=======================
+* Initial release. This is a Qt4 rewrite of the older qtgpsc client

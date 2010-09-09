@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=qtGPSc
+GenericName=Gpsd Client
+Comment=A client for the gpsd server
+# qtgpsc accepts one URL argument of the form:
+# [gpsd://]server[:port][/device] E.g.,
+# gpsd://gpsd.mainframe.cx/dev/cuaU0
+Exec=qtgpsc %u
+Terminal=false
+Type=Application
+Categories=Science;Geoscience;Qt
+Icon=qtgpsc
+X-qtgpsc-version=@AU_PROJECT_VERSION@

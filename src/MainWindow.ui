@@ -1,0 +1,836 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>551</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>qtGpsc</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="qtgpsc.qrc">
+    <normaloff>:/rsc/images/gpsd-logo-small.png</normaloff>:/rsc/images/gpsd-logo-small.png</iconset>
+  </property>
+  <widget class="QWidget" name="main">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="hostLabel">
+        <property name="text">
+         <string>&amp;Host:</string>
+        </property>
+        <property name="buddy">
+         <cstring>host</cstring>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="host">
+        <property name="toolTip">
+         <string>Hostname of GPSD server</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="portLabel">
+        <property name="text">
+         <string>&amp;Port:</string>
+        </property>
+        <property name="buddy">
+         <cstring>port</cstring>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="port">
+        <property name="toolTip">
+         <string>Port number of GPSD server</string>
+        </property>
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>65535</number>
+        </property>
+        <property name="value">
+         <number>2947</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="deviceLabel">
+        <property name="text">
+         <string>&amp;Device:</string>
+        </property>
+        <property name="buddy">
+         <cstring>device</cstring>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="device">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>GPSD device to watch</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="connectButton">
+        <property name="toolTip">
+         <string>Connect or disconnect from GPSD server</string>
+        </property>
+        <property name="text">
+         <string>C&amp;onnect</string>
+        </property>
+        <property name="shortcut">
+         <string>Ctrl+O</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Expanding</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QSplitter" name="splitter">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QTabWidget" name="tabWidget_3">
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="tab_6">
+        <attribute name="title">
+         <string>Positio&amp;n</string>
+        </attribute>
+        <attribute name="toolTip">
+         <string>Position, velocity, and time data</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="latitudeLabel">
+           <property name="text">
+            <string>Latitude:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="latitude">
+           <property name="toolTip">
+            <string>Latitude value</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="longitudeLabel">
+           <property name="text">
+            <string>Longitude:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="longitude">
+           <property name="toolTip">
+            <string>Longitude value</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="elevationLabel">
+           <property name="text">
+            <string>Elevation:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="elevation">
+           <property name="toolTip">
+            <string>Elevation value</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="speedLabel">
+           <property name="text">
+            <string>Speed:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLineEdit" name="speed">
+           <property name="toolTip">
+            <string>Speed value</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="trackLabel">
+           <property name="text">
+            <string>Track:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QLineEdit" name="track">
+           <property name="toolTip">
+            <string>Track (course) value</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="timeLabel">
+           <property name="text">
+            <string>Time:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QLineEdit" name="tstamp">
+           <property name="toolTip">
+            <string>UTC timestamp</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0">
+          <widget class="QLabel" name="dopsLabel">
+           <property name="text">
+            <string>DOPs:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="QLineEdit" name="dops">
+           <property name="toolTip">
+            <string>Dilution of precision values</string>
+           </property>
+           <property name="whatsThis">
+            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Shows the dilution of precision (DOP) values computed by the GPS receiver (or estimated by GPSD if the receiver does not provide them). They are as follows:&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;P:&lt;/span&gt; Point dilution of precision (PDOP)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;H:&lt;/span&gt; Horizontal dilution of precision (HDOP)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;V:&lt;/span&gt; Vertical dilution of precision (VDOP)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;T:&lt;/span&gt; Time dilution of precision (TDOP)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;G:&lt;/span&gt; Geometric dilution of precision (GDOP)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0">
+          <widget class="QLabel" name="rmsLabel">
+           <property name="text">
+            <string>RMS:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="1">
+          <widget class="QLineEdit" name="rms">
+           <property name="toolTip">
+            <string>Root mean square error estimates</string>
+           </property>
+           <property name="whatsThis">
+            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Shows root mean square (RMS) error estimates for the current position solution in the horizontal and vertical planes, prefixed by &lt;span style=&quot; font-weight:600;&quot;&gt;H&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;V&lt;/span&gt;, respectively.&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;The units of these quantities are the same as the selected altitude units, i.e., metres or feet.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_7">
+        <attribute name="title">
+         <string>Sa&amp;tellites</string>
+        </attribute>
+        <attribute name="toolTip">
+         <string>Satellite constellation data</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <item row="0" column="0">
+          <widget class="SatTable" name="satTable">
+           <attribute name="horizontalHeaderMinimumSectionSize">
+            <number>20</number>
+           </attribute>
+           <attribute name="verticalHeaderVisible">
+            <bool>false</bool>
+           </attribute>
+           <attribute name="verticalHeaderVisible">
+            <bool>false</bool>
+           </attribute>
+           <attribute name="horizontalHeaderMinimumSectionSize">
+            <number>20</number>
+           </attribute>
+           <column>
+            <property name="text">
+             <string>PRN</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Azimuth</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Elevation</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>S/N</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Used</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab">
+        <attribute name="title">
+         <string>&amp;Raw Data</string>
+        </attribute>
+        <attribute name="toolTip">
+         <string>Raw data stream from GPSD server</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="GpsdRawDataViewer" name="rawDataViewer" native="true"/>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QTabWidget" name="tabWidget_2">
+       <property name="minimumSize">
+        <size>
+         <width>240</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="tab_3">
+        <attribute name="title">
+         <string>S&amp;kyview</string>
+        </attribute>
+        <attribute name="toolTip">
+         <string>Skyplot of satellite constellation</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="SatView" name="satView" native="true">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::StrongFocus</enum>
+           </property>
+           <property name="whatsThis">
+            <string>This is a graphical representation of the GNSS (Global Navigation Satellite System) constellation with respect to the receiver's current location.
+
+The range circles represent the elevation angle, from 0° (the horizon) on the outer circle to 90° (the zenith) at the centre. Therefore, the higher a satellite is on the sky, the closer to the centre.
+
+The azimuth of a satellite respect to the receiver is given in a clockwise fashion, with True North straight up, East on the right, South at the bottom, and West on the left.
+
+Satellites which the GNSS receiver reports as being used in the solution are shown with a solid fill; visible satellites which are reported as not in use are represented as hollow circles. In any case, SVN (Satellite Vehicle Number) as reported by the GNSS receiver is shown next to the satellite's position.
+</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>551</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_File">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <addaction name="actionQuit"/>
+   </widget>
+   <widget class="QMenu" name="menuUnits">
+    <property name="title">
+     <string>&amp;Units</string>
+    </property>
+    <widget class="QMenu" name="menuSpeed">
+     <property name="title">
+      <string>&amp;Speed</string>
+     </property>
+     <addaction name="actionMetres_per_second"/>
+     <addaction name="actionKilometres_per_hour"/>
+     <addaction name="actionMiles_per_hour"/>
+     <addaction name="actionKnots"/>
+    </widget>
+    <widget class="QMenu" name="menuAltitude">
+     <property name="title">
+      <string>&amp;Altitude</string>
+     </property>
+     <addaction name="actionMetres"/>
+     <addaction name="actionFeet"/>
+    </widget>
+    <widget class="QMenu" name="menuDistance">
+     <property name="title">
+      <string>&amp;Distance</string>
+     </property>
+     <addaction name="actionKilometres"/>
+     <addaction name="actionStatute_Miles"/>
+     <addaction name="actionNautical_Miles"/>
+    </widget>
+    <widget class="QMenu" name="menuPosition">
+     <property name="title">
+      <string>&amp;Position</string>
+     </property>
+     <addaction name="actionDegrees_minutes_seconds"/>
+     <addaction name="actionDegrees_minutes"/>
+     <addaction name="actionDegrees"/>
+     <addaction name="actionGrads"/>
+     <addaction name="actionRadians"/>
+    </widget>
+    <addaction name="menuAltitude"/>
+    <addaction name="menuDistance"/>
+    <addaction name="menuSpeed"/>
+    <addaction name="menuPosition"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
+   <widget class="QMenu" name="menu_Edit">
+    <property name="title">
+     <string>&amp;Edit</string>
+    </property>
+    <addaction name="actionCopy_Position_as_KML"/>
+    <addaction name="actionCopy_Position_as_CSV"/>
+   </widget>
+   <addaction name="menu_File"/>
+   <addaction name="menu_Edit"/>
+   <addaction name="menuUnits"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionQuit">
+   <property name="text">
+    <string>Quit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionCut">
+   <property name="text">
+    <string>Cut</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
+  </action>
+  <action name="actionCopy">
+   <property name="text">
+    <string>Copy</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="actionPaste">
+   <property name="text">
+    <string>Paste</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionCopy_Position_as_KML">
+   <property name="text">
+    <string>Copy Position as &amp;KML</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+K</string>
+   </property>
+  </action>
+  <action name="actionMetres">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Metres</string>
+   </property>
+  </action>
+  <action name="actionFeet">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Feet</string>
+   </property>
+  </action>
+  <action name="actionKilometres">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Kilometres</string>
+   </property>
+  </action>
+  <action name="actionStatute_Miles">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Statute Miles</string>
+   </property>
+  </action>
+  <action name="actionNautical_Miles">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Nautical Miles</string>
+   </property>
+  </action>
+  <action name="actionMetres_per_second">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Metres per second</string>
+   </property>
+  </action>
+  <action name="actionKilometres_per_hour">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Kilometres per hour</string>
+   </property>
+  </action>
+  <action name="actionMiles_per_hour">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>M&amp;iles per hour</string>
+   </property>
+  </action>
+  <action name="actionKnots">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>K&amp;nots</string>
+   </property>
+  </action>
+  <action name="actionDegrees_minutes_seconds">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Degrees, minutes, &amp;seconds</string>
+   </property>
+  </action>
+  <action name="actionDegrees_minutes">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Degrees, &amp;minutes</string>
+   </property>
+  </action>
+  <action name="actionDegrees">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Degrees</string>
+   </property>
+  </action>
+  <action name="actionGrads">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Grads</string>
+   </property>
+  </action>
+  <action name="actionRadians">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Radians</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>&amp;About</string>
+   </property>
+  </action>
+  <action name="actionCopy_Position_as_CSV">
+   <property name="text">
+    <string>Copy Position as &amp;CSV</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+C</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SatView</class>
+   <extends>QWidget</extends>
+   <header>satview.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SatTable</class>
+   <extends>QTableWidget</extends>
+   <header>sattable.h</header>
+  </customwidget>
+  <customwidget>
+   <class>GpsdRawDataViewer</class>
+   <extends>QWidget</extends>
+   <header>gpsdrawdataviewer.h</header>
+   <container>1</container>
+   <slots>
+    <slot>setHost(QString)</slot>
+    <slot>setPort(quint16)</slot>
+    <slot>setPort(int)</slot>
+    <slot>connectToServer(bool)</slot>
+   </slots>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>host</tabstop>
+  <tabstop>port</tabstop>
+  <tabstop>device</tabstop>
+  <tabstop>connectButton</tabstop>
+  <tabstop>tabWidget_2</tabstop>
+ </tabstops>
+ <resources>
+  <include location="qtgpsc.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>host</sender>
+   <signal>returnPressed()</signal>
+   <receiver>connectButton</receiver>
+   <slot>toggle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>135</x>
+     <y>41</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>431</x>
+     <y>46</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>connectButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>host</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>459</x>
+     <y>41</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>66</x>
+     <y>34</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>connectButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>port</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>459</x>
+     <y>48</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>262</x>
+     <y>48</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionQuit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>275</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>host</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>rawDataViewer</receiver>
+   <slot>setHost(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>57</x>
+     <y>37</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>90</x>
+     <y>136</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>port</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>rawDataViewer</receiver>
+   <slot>setPort(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>242</x>
+     <y>38</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>225</x>
+     <y>158</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>connectButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>rawDataViewer</receiver>
+   <slot>connectToServer(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>442</x>
+     <y>43</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>156</x>
+     <y>188</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
