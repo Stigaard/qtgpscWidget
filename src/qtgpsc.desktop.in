@@ -9,5 +9,6 @@ Exec=qtgpsc %u
 Terminal=false
 Type=Application
 Categories=Science;Geoscience;Qt
+MimeType=uri/gpsd
 Icon=qtgpsc
 X-qtgpsc-version=@AU_PROJECT_VERSION@
