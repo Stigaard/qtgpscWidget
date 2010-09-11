@@ -18,6 +18,7 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QScrollBar>
 #include "gpsdrawdataviewer.h"
 
 GpsdRawDataViewer::GpsdRawDataViewer(QWidget *parent)
@@ -38,6 +39,7 @@ GpsdRawDataViewer::GpsdRawDataViewer(QWidget *parent)
     ui.rawDataCopy->setDefaultAction(ui.actionCopy);
     ui.rawDataSave->setDefaultAction(ui.actionSave);
     
+    connect(ui.wrapText, SIGNAL(toggled(bool)), this, SLOT(wrapText(bool)));
     connect(ui.actionClear, SIGNAL(triggered(bool)), ui.rawDataViewer, SLOT(clear()));
     connect(ui.actionCopy, SIGNAL(triggered(bool)), this, SLOT(copyToClipboard()));
     connect(ui.actionSave, SIGNAL(triggered(bool)), this, SLOT(saveToFile()));
@@ -129,8 +131,9 @@ void GpsdRawDataViewer::updateData()
             // Do nothing
             break;
     }
-    ui.rawDataViewer->textCursor().movePosition(QTextCursor::End);
-    ui.rawDataViewer->ensureCursorVisible();
+    ui.rawDataViewer->verticalScrollBar()->setValue(
+        ui.rawDataViewer->verticalScrollBar()->maximum()
+    );
 }
 
 void GpsdRawDataViewer::switchFormat(int idx)
@@ -141,6 +144,15 @@ void GpsdRawDataViewer::switchFormat(int idx)
     }
     
     setFormat((Gpsd::StreamMode)ui.rawDataFormat->itemData(idx).toInt());
+}
+
+void GpsdRawDataViewer::wrapText(bool wrap)
+{
+    if (wrap) {
+        ui.rawDataViewer->setLineWrapMode(QPlainTextEdit::WidgetWidth);
+    } else {
+        ui.rawDataViewer->setLineWrapMode(QPlainTextEdit::NoWrap);
+    }
 }
 
 void GpsdRawDataViewer::copyToClipboard()

@@ -55,6 +55,7 @@ class GpsdRawDataViewer : public QWidget
         void setFormat(Gpsd::StreamMode f);
         void connectToServer(bool c = true);
         void disconnectFromServer();
+        void wrapText(bool wrap);
         void copyToClipboard();
         void saveToFile(const QString &fileName = QString());
         
