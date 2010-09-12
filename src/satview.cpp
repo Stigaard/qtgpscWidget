@@ -21,6 +21,7 @@
 #include <QContextMenuEvent>
 #include <QApplication>
 #include <QClipboard>
+#include <QToolTip>
 #include "satview.h"
 
 Satellite::Satellite(int p, double a, double e,
@@ -39,6 +40,7 @@ Satellite::Satellite()
 SatView::SatView(QWidget *parent)
     : QWidget(parent)
 {
+    setMouseTracking(true);
     actionCopy = new QAction("&Copy to clipboard", this);
     actionCopy->setShortcut(QKeySequence::Copy);
     connect(actionCopy, SIGNAL(triggered()), this, SLOT(copyToClipboard()));
@@ -52,25 +54,27 @@ void SatView::setSatellites(const SatList &sats)
 
 void SatView::paintEvent(QPaintEvent *)
 {
-    #define DEG2RAD(v) ((v)*3.141592653589793/180.0)
     Satellite sat;
     int radius = qMin(width(), height())-4/*margin*/;
     QPointF centre(0,0);
     
     QPainter painter(this);
-    QPen bgCirclesPen(Qt::gray, 1, Qt::DashLine);
+    painter.setTransform(transform);
+    QPen bgCirclesPen(Qt::gray, 0.3, Qt::DashLine);
     bgCirclesPen.setCosmetic(true);
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setPen(bgCirclesPen);
     painter.setBrush(Qt::NoBrush);
-    painter.translate(width()/2, height()/2);
-    painter.scale(radius/180.0, radius/180.0);
     painter.save();
     painter.drawEllipse(centre, 30, 30);
     painter.drawEllipse(centre, 60, 60);
     painter.drawEllipse(centre, 90, 90);
-    painter.drawLine(0, -90, 0, 90);
-    painter.drawLine(-90, 0, 90, 0);
+    painter.save();
+    for (double i=0; i<360.0; i+=45) {
+        painter.rotate(i);
+        painter.drawLine(0, -90, 0, 90);
+    }
+    painter.restore();
     painter.setPen(Qt::darkRed);
     painter.setBrush(Qt::red);
     
@@ -78,14 +82,12 @@ void SatView::paintEvent(QPaintEvent *)
     usedSat.setPen(Qt::darkRed);
     usedSat.setBrush(Qt::red);
     usedSat.setRenderHint(QPainter::Antialiasing, true);
-    usedSat.translate(width()/2, height()/2);
-    usedSat.scale(radius/180.0, radius/180.0);
+    usedSat.setTransform(transform);
     
     QPainter unusedSat(this);
     unusedSat.setPen(Qt::darkRed);
     unusedSat.setBrush(Qt::NoBrush);
-    unusedSat.translate(width()/2, height()/2);
-    unusedSat.scale(radius/180.0, radius/180.0);
+    unusedSat.setTransform(transform);
     unusedSat.setRenderHint(QPainter::Antialiasing, true);
     
     QPainter prnText(this);
@@ -95,25 +97,53 @@ void SatView::paintEvent(QPaintEvent *)
     QFont f;
     f.setPixelSize(8);
     prnText.setFont(f);
-    prnText.translate(width()/2, height()/2);
-    prnText.scale(radius/180.0, radius/180.0);
+    prnText.setTransform(transform);
     prnText.setRenderHint(QPainter::TextAntialiasing, true);
     
     
     foreach (sat, satellites) {
-        double x,y;
-        x = cos(DEG2RAD(90-sat.azm))*(90-sat.ele);
-        y = -sin(DEG2RAD(90-sat.azm))*(90-sat.ele);
+        QPointF pos = polar2rect(sat.azm, sat.ele);
         
         if (sat.used)
-            usedSat.drawEllipse(QPointF(x, y), 2.0, 2.0);
+            usedSat.drawEllipse(pos, 2.0, 2.0);
         else
-            unusedSat.drawEllipse(QPointF(x, y), 2.0, 2.0);
+            unusedSat.drawEllipse(pos, 2.0, 2.0);
         
-        prnText.drawText(x+2, y+2, QString::number(sat.prn));
+        prnText.drawText(pos.x()+2, pos.y()+2, QString::number(sat.prn));
     }
     painter.restore();
-    #undef DEG2RAD
+}
+
+void SatView::resizeEvent(QResizeEvent *event)
+{
+    QTransform t;
+    int radius = qMin(width(), height())-4/*margin*/;
+    t.translate(width()/2, height()/2);
+    t.scale(radius/180.0, radius/180.0);
+    transform = t;
+}
+
+void SatView::mouseMoveEvent(QMouseEvent *event)
+{
+    QPointF p = rect2polar(transform.inverted().map(event->pos()));
+    p.ry() = 90.0 - p.y();
+    if (p.y() >= 0) {
+        QString t;
+        t = QString("Az: %1 El: %2").arg(p.x(), 3, 'f', 0, '0').arg(p.y(), 2, 'f', 0, '0');
+        foreach(Satellite sat, satellites) {
+            QPointF r = polar2rect(sat.azm, sat.ele);
+            r = transform.inverted().map(event->pos()) - r;
+            if ((r.x()*r.x() + r.y()*r.y()) < 3) {
+                t.append(QString("\nPRN: %1 Az: %2 El: %3 SNR: %4 %5").arg(sat.prn)
+                    .arg(sat.azm, 3, 'f', 0, '0').arg(sat.ele, 2, 'f', 0, '0')
+                    .arg(sat.snr).arg(sat.used?"Used":"Not used"));
+            }
+        }
+            
+        QToolTip::showText(event->globalPos(), t, this);
+    } else {
+        QToolTip::hideText();
+    }
 }
 
 void SatView::contextMenuEvent(QContextMenuEvent *event)
@@ -129,3 +159,30 @@ void SatView::copyToClipboard()
     render(&pixmap);
     QApplication::clipboard()->setPixmap(pixmap);
 }
+
+#define DEG2RAD(v) ((v)*3.141592653589793/180.0)
+#define RAD2DEG(v) ((v)*180.0/3.141592653589793)
+QPointF SatView::polar2rect(double azm, double ele)
+{
+    QPointF r;
+    r.rx() = cos(DEG2RAD(90-azm))*(90-ele);
+    r.ry() = -sin(DEG2RAD(90-azm))*(90-ele);
+    return r;
+}
+
+QPointF SatView::rect2polar(double x, double y)
+{
+    QPointF p;
+    p.rx() = RAD2DEG(atan2(x, -y)); // azm
+    p.rx() += (p.rx() < 0 ? 360.0 : 0.0);
+    p.ry() = sqrt(x*x + y*y); // el;
+    return p;
+}
+
+QPointF SatView::rect2polar(QPointF r)
+{
+    return rect2polar(r.x(), r.y());
+}
+
+#undef RAD2DEG
+#undef DEG2RAD

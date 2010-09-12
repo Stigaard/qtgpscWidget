@@ -19,6 +19,7 @@
 #define SATVIEW_H
 
 #include <QWidget>
+#include <QTransform>
 #include <QList>
 #include "gpsd.h"
 
@@ -51,6 +52,9 @@ class SatView : public QWidget
         void paintEvent(QPaintEvent *event);
         //! Show a custom context menu
         void contextMenuEvent(QContextMenuEvent *event);
+        //! Show a tooltip with polar coordinates
+        void mouseMoveEvent(QMouseEvent *event);
+        void resizeEvent(QResizeEvent *event);
         
     private slots:
         //! Called by the context menu, copies the
@@ -60,6 +64,13 @@ class SatView : public QWidget
     private:
         SatList satellites;     // List of satellites
         QAction *actionCopy;    // Copy to clipboard action
+        
+        QTransform transform;   // Transformation matrix
+        
+        // Utility functions, polar <-> rectangular conversions
+        static QPointF polar2rect(double azm, double el);
+        static QPointF rect2polar(double x, double y);
+        static QPointF rect2polar(QPointF r);
 };
 
 #endif /* SATVIEW_H */
