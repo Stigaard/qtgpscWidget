@@ -7,11 +7,11 @@ Release:                1
 URL:                    http://navlost.eu/devel/qtgpsc/
 Source:                 %{name}-%{version}.tar.gz
 BuildRoot:              %{_tmppath}/%{name}-%{version}-build
-BuildRequires:          cmake >= 2.6, libqt4-devel >= 4.5, gpsd-devel >= 2.96
+BuildRequires:          cmake >= 2.6, libqt4-devel >= 4.5, libkde4-devel >= 4.3, gpsd-devel >= 2.96
 %if 0%{?suse_version}  
-BuildRequires: update-desktop-files
+BuildRequires:          update-desktop-files
 %endif
-Requires:               libqt4 >= 4.5.1, libgps20 >= 2.96
+Requires:               libqt4 >= 4.5.1, libgpsd >= 2.96
 
 %description
 qtGPSc is a simple graphical client for gpsd.  It connects to
@@ -23,12 +23,11 @@ It can also show the raw GPS data in JSON or NMEA format.
 %setup -n %{name}-%{version}  
 
 %build  
-%cmake --build builddir
-cd builddir
-%make RPM_OPT_FLAGS="$RPM_OPT_FLAGS"
+%cmake_kde4 -d builddir
+%make_jobs
    
 %install
-cd builddir  
+cd builddir
 %makeinstall
 %if 0%{?suse_version}  
 %suse_update_desktop_file -i %{name}  
