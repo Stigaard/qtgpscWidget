@@ -1,6 +1,6 @@
 Name:                   qtgpsc
 License:                GPLv3
-Group:                  Applications/Science
+Group:                  Productivity/Scientific/Other
 Summary:                A client for the gpsd GPS server, based on the Qt toolkit
 Version:                @VERSION@
 Release:                1
