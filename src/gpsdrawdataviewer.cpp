@@ -97,10 +97,10 @@ void GpsdRawDataViewer::updateData()
     
     switch (format) {
         case Gpsd::Json:
-            ui.rawDataViewer->appendPlainText(gps_data(gpsd.gpsData()));
+            ui.rawDataViewer->appendPlainText(gps_data((gps_data_t*)gpsd.gpsData()));
             break;
         case Gpsd::Nmea:
-            lines = QString(gps_data(gpsd.gpsData())).split("\n");
+            lines = QString(gps_data((gps_data_t*)gpsd.gpsData())).split("\n");
             foreach (line, lines) {
                 line = line.trimmed();
                 if (regexNmea.exactMatch(line)) {
@@ -110,7 +110,7 @@ void GpsdRawDataViewer::updateData()
             }
             break;
         case Gpsd::Hex:
-            lines = QString(gps_data(gpsd.gpsData())).split("\n");
+            lines = QString(gps_data((gps_data_t*)gpsd.gpsData())).split("\n");
             foreach (line, lines) {
                 line = line.trimmed();
                 if (regexHex.exactMatch(line)) {
