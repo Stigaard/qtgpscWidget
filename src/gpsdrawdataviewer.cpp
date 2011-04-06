@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2010 by Diego Berge <gpsd@navlost.eu>                   *
+*   Copyright (C) 2010, 2011 by Diego Berge <gpsd@navlost.eu>             *
 *                                                                         *
 *   This program is free software; you can redistribute it and/or modify  *
 *   it under the terms of the GNU General Public License as published by  *
@@ -97,10 +97,10 @@ void GpsdRawDataViewer::updateData()
     
     switch (format) {
         case Gpsd::Json:
-            ui.rawDataViewer->appendPlainText(gpsd.gpsData()->buffer);
+            ui.rawDataViewer->appendPlainText(gps_data(gpsd.gpsData()));
             break;
         case Gpsd::Nmea:
-            lines = QString(gpsd.gpsData()->buffer).split("\n");
+            lines = QString(gps_data(gpsd.gpsData())).split("\n");
             foreach (line, lines) {
                 line = line.trimmed();
                 if (regexNmea.exactMatch(line)) {
@@ -110,7 +110,7 @@ void GpsdRawDataViewer::updateData()
             }
             break;
         case Gpsd::Hex:
-            lines = QString(gpsd.gpsData()->buffer).split("\n");
+            lines = QString(gps_data(gpsd.gpsData())).split("\n");
             foreach (line, lines) {
                 line = line.trimmed();
                 if (regexHex.exactMatch(line)) {
