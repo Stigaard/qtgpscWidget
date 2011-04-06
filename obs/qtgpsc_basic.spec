@@ -43,6 +43,4 @@ cd builddir
 %{_datadir}/icons/hicolor/48x48/apps/qtgpsc.png
 %{_datadir}/applications/qtgpsc.desktop
 
-%changelog 0.3.0
-* Thu Sep 09 2010 Diego Berge <gpsd@navlost.eu>
-- Release 0.3.0 for openSUSE Build Service
+%changelog

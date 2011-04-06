@@ -52,6 +52,7 @@ check_errs $? "Can't create archive $BASE_NAME"
 echo "Creating RPM spec."
 sed <obs/qtgpsc_basic.spec -e s/@VERSION@/$VERSION/g >staging/$BASE_NAME.spec
 check_errs $? "Can't generate spec file."
+cp obs/qtgpsc.changes staging/$BASE_NAME.changes
 
 # # Create Ubuntu files. Current version of Debian (5.0) in OBS does not
 # # have all required dependencies
