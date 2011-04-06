@@ -145,7 +145,7 @@ void Gpsd::handleInput(int)
     
     if (gpsdata.set & DEVICEID_SET ||
         gpsdata.set & MODE_SET ||
-        gpsdata.set & USED_SET) {
+        gpsdata.set & SATELLITE_SET) {
         // FIXME -- This is probably redundant and needs to go.
         emit dataUpdated();
     }
