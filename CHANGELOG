@@ -1,5 +1,9 @@
 qtGpsc changelog
 
+0.3.1 - Tue Apr 12 2011
+=======================
+* Updated to work with new gpsd release 2.96
+
 0.3.0 - Wed Sep 08 2010
 =======================
 * Initial release. This is a Qt4 rewrite of the older qtgpsc client
