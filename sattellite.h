@@ -15,38 +15,28 @@
 *   along with this program; if not, see <http://www.gnu.org/licenses/>   *
 ***************************************************************************/
 
-#include "sattable.h"
+#ifndef SATELLITE_H
+#define SATELLITE_H
 
-SatTable::SatTable(QWidget *parent)
-    : QTableWidget(parent)
-{
-    setRowCount(0);
-}
+#include <QList>
 
-void SatTable::setSatellites(const SatList  &sats)
-{
-    Satellite sat;
-    setRowCount(0);
-
-    setUpdatesEnabled(false);
-    // Populate table
-    foreach (sat, sats) {
-        int n = rowCount();
-        setRowCount(n+1);
-        QTableWidgetItem *i;
-        i = new QTableWidgetItem(QString().sprintf("%03d", sat.prn));
-        setItem(n, 0, i);
-        i = new QTableWidgetItem(QString().sprintf("%03.0f", sat.azm));
-        setItem(n, 1, i);
-        i = new QTableWidgetItem(QString().sprintf("%03.0f", sat.ele));
-        setItem(n, 2, i);
-        i = new QTableWidgetItem(QString::number(sat.snr));
-        setItem(n, 3, i);
-        i = new QTableWidgetItem(QString(sat.used?"Yes":"No"));
-        setItem(n, 4, i);
-    }
+//! Support class for Gpsd. Holds position and status data for one satellite
+class Satellite {
     
-    sortItems(0);   // Sort by PRN
-    resizeColumnsToContents();
-    setUpdatesEnabled(true);
-}
+    public:
+        
+        Satellite();
+        
+        Satellite(int prn, double azm, double ele,
+                  double snr, bool used, bool healthy);
+                  
+    public:
+        int prn;
+        double azm, ele, snr;
+        bool used, healthy;
+};
+
+//! Convenience type to hold a list of satellites
+typedef QList<Satellite> SatList;
+
+#endif /* SATELLITE_H */

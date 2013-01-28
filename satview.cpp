@@ -23,6 +23,7 @@
 #include <QClipboard>
 #include <QToolTip>
 #include "satview.h"
+#include "satview.moc"
 
 Satellite::Satellite(int p, double a, double e,
                      double r, bool u, bool h)

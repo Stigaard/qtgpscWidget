@@ -1,8 +1,0 @@
-<RCC>
-  <qresource prefix="rsc">
-    <file>images/gpsd-logo-small.png</file>
-    <file>images/edit-copy.png</file>
-    <file>images/edit-clear.png</file>
-    <file>images/document-save.png</file>
-  </qresource>
-</RCC>

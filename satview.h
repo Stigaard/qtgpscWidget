@@ -15,28 +15,32 @@
 *   along with this program; if not, see <http://www.gnu.org/licenses/>   *
 ***************************************************************************/
 
-#ifndef SATTABLE_H
-#define SATTABLE_H
+#ifndef SATVIEW_H
+#define SATVIEW_H
 
-#include <QTableWidget>
-#include "gpsd.h"
+#include <QWidget>
+#include <QTransform>
+#include <QList>
+#include "satellite.h"
 
-//! Display a table with constellation info.
+
+
+//! Display a polar plot of visible satellites
 /*!
-* This class displays a table with one row
-* per visible satellite. The columns show
-* satellite information such as PRN
-* (Pseudo-random number, aka satellite ID),
-* azimuth, elevation, etc.
+* This class implements a widget showing a simple
+* polar plot of satellites. Visible satellites are
+* shown with a fill if they are flagged as used in
+* the position solution, and hollow otherwise. The
+* PRN numbers are shown next to each satellite in
+* any event.
 */
-class SatTable : public QTableWidget
+class SatView : public QWidget
 {
 
     Q_OBJECT
 
     public:
-
-        SatTable(QWidget *parent);
+        SatView(QWidget *parent = 0);
 
         //! Set constellation info.
         /*!
@@ -45,6 +49,30 @@ class SatTable : public QTableWidget
         */
         void setSatellites(const SatList &sats);
 
+    protected:
+        //! Reimplemented from QWidget
+        void paintEvent(QPaintEvent *event);
+        //! Show a custom context menu
+        void contextMenuEvent(QContextMenuEvent *event);
+        //! Show a tooltip with polar coordinates
+        void mouseMoveEvent(QMouseEvent *event);
+        void resizeEvent(QResizeEvent *event);
+        
+    private slots:
+        //! Called by the context menu, copies the
+        //! plot to the keyboard as an image.
+        void copyToClipboard();
+        
+    private:
+        SatList satellites;     // List of satellites
+        QAction *actionCopy;    // Copy to clipboard action
+        
+        QTransform transform;   // Transformation matrix
+        
+        // Utility functions, polar <-> rectangular conversions
+        static QPointF polar2rect(double azm, double el);
+        static QPointF rect2polar(double x, double y);
+        static QPointF rect2polar(QPointF r);
 };
 
-#endif /* SATTABLE_H */
+#endif /* SATVIEW_H */
