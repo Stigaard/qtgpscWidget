@@ -25,10 +25,11 @@
 #include "satellite.h"
 #include "../gpsReader/gpsreader.h"
 
-#include <qt4/QtGui/QWidget>
-#include <QtGui/QButtonGroup>
-#include <QtGui/QRadioButton>
-#include <QtGui/QGridLayout>
+#include <QWidget>
+#include <QButtonGroup>
+#include <QRadioButton>
+#include <QGridLayout>
+#include <QSettings>
 
 
 class gpsWidget : public QWidget
@@ -47,6 +48,8 @@ private:
                  *gpsQualitySimulation;
     QGridLayout *gpsLayout;
     void drawGPSGui(void);
+    
+private slots:
     void updateSatlist(SatList sats);
     void updateSatStatus(QByteArray time, QByteArray latitude, char latitudeHeading, 
               QByteArray longitude, char longitudeHeading, int GPSQuality, 
